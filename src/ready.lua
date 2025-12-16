@@ -17,10 +17,6 @@ game.FamiliarData.FrogFamiliar.SetupEvents[4].GameStateRequirements[1].IsNone = 
 
 game.FamiliarData.FrogFamiliar.SpecialInteractGameStateRequirements = {}
 
-table.insert(game.FamiliarData.FrogFamiliar.EncounterEndEvents, {
-    FunctionName = _PLUGIN.guid .. "RemovePetInputBlock",
-})
-
 modutil.mod.Path.Wrap("FamiliarSetup", function (base, source, args)
     base(source,args)
     print("removing input block")
@@ -55,18 +51,3 @@ modutil.mod.Path.Wrap("CanReceiveGift", function (base, source)
     end
     return result
 end)
-
-
-modutil.mod.Path.Wrap("StartEncounter", function (base, currentRun, currentRoom, encounter)
-    if not encounter.Completed then
-        game.AddInteractBlock(game.MapState.FamiliarUnit,"InRun")
-    end
-    base(currentRun, currentRoom, encounter)
-    if encounter.Completed then
-        game.RemoveInteractBlock(game.MapState.FamiliarUnit,"InRun")
-    end
-end)
-
-function mod.RemovePetInputBlock( familiar )
-    game.RemoveInteractBlock(familiar,"InRun")
-end

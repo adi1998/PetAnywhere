@@ -4,7 +4,7 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "zerp"
 name = "PetAnywhere"
-versionNumber = "0.1.0"
+versionNumber = "1.0.0"
 description = "Hades 2 mod allowing you to pet familiars outside of the Crossroads."
 websiteUrl = "https://github.com/adi1998/PetAnywhere"
 containsNsfwContent = false

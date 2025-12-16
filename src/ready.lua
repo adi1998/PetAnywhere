@@ -12,11 +12,6 @@ function mod.dump(o)
    end
 end
 
-game.FamiliarData.FrogFamiliar.SetupEvents[4].GameStateRequirements[1].IsAny = nil
-game.FamiliarData.FrogFamiliar.SetupEvents[4].GameStateRequirements[1].IsNone = { "Hub_Main" }
-
-game.FamiliarData.FrogFamiliar.SpecialInteractGameStateRequirements = {}
-
 modutil.mod.Path.Wrap("FamiliarSetup", function (base, source, args)
     base(source,args)
     print("removing input block")
@@ -25,28 +20,18 @@ modutil.mod.Path.Wrap("FamiliarSetup", function (base, source, args)
 end)
 
 modutil.mod.Path.Wrap("CanSpecialInteract", function (base, source)
-    print(mod.dump(source.SpecialInteractFunctionName))
-    print(mod.dump(source.SpecialInteractGameStateRequirements))
-    print(mod.dump(source.SpecialInteractCooldown))
-    print(game.IsComplexHarvestAllowed())
-    print(CurrentHubRoom)
     local result = base(source)
     if game.IsComplexHarvestAllowed() and source == game.MapState.FamiliarUnit then
-        return true and base(source)
-    elseif (not game.IsComplexHarvestAllowed()) and source == game.MapState.FamiliarUnit and CurrentHubRoom == nil then
+        return true and result
+    elseif (not game.IsComplexHarvestAllowed()) and source == game.MapState.FamiliarUnit and game.CurrentHubRoom == nil then
         return false
     end
     return result
 end)
 
 modutil.mod.Path.Wrap("CanReceiveGift", function (base, source)
-    print(mod.dump(source.SpecialInteractFunctionName))
-    print(mod.dump(source.SpecialInteractGameStateRequirements))
-    print(mod.dump(source.SpecialInteractCooldown))
-    print(game.IsComplexHarvestAllowed())
-    print(CurrentHubRoom)
     local result = base(source)
-    if source == game.MapState.FamiliarUnit and CurrentHubRoom == nil then
+    if source == game.MapState.FamiliarUnit and game.CurrentHubRoom == nil then
         return false
     end
     return result

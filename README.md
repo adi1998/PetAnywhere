@@ -1,6 +1,6 @@
 ## Pet Anywhere
 
-Hades 2 mod allowing you pet familiars outside of the Crossroads.
+Hades 2 mod allowing you to pet familiars outside of the Crossroads.
 
 ## Issues
 

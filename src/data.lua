@@ -5,42 +5,36 @@ game.FamiliarData.FrogFamiliar.SpecialInteractGameStateRequirements = {}
 
 game.FamiliarData.HoundFamiliar.InteractVoiceLines[1].GameStateRequirements = {
     {
+        PathFalse = { "CurrentRun", "Hero", "IsDead" },
+    },
+    {
+        Path = { "GameState", "EquippedFamiliar" },
+        Comparison = "~=",
+        Value = "HoundFamiliar"
+    }
+}
+
+for _, familiar in ipairs({"CatFamiliar", "RavenFamiliar", "PolecatFamiliar"}) do
+    game.FamiliarData[familiar].InteractVoiceLines[1].GameStateRequirements = {
         {
             PathFalse = { "CurrentRun", "Hero", "IsDead" },
         },
         {
             Path = { "GameState", "EquippedFamiliar" },
             Comparison = "~=",
-            Value = "HoundFamiliar"
-        }
-    }
-}
-
-for _, familiar in ipairs({"CatFamiliar", "RavenFamiliar", "PoleCatFamiliar"}) do
-    game.FamiliarData[familiar].InteractVoiceLines[1].GameStateRequirements = {
-        {
-            {
-                PathFalse = { "CurrentRun", "Hero", "IsDead" },
-            },
-            {
-                Path = { "GameState", "EquippedFamiliar" },
-                Comparison = "~=",
-                Value = familiar
-            }
+            Value = familiar
         }
     }
 
     game.FamiliarData[familiar].InteractVoiceLines[2].GameStateRequirements = {
-        {
+        OrRequirements = {
             {
                 PathTrue = { "CurrentRun", "Hero", "IsDead" },
             },
-            OrRequirements = {
-                {
-                    Path = { "GameState", "EquippedFamiliar" },
-                    Comparison = "==",
-                    Value = familiar
-                }
+            {
+                Path = { "GameState", "EquippedFamiliar" },
+                Comparison = "==",
+                Value = familiar
             }
         }
     }

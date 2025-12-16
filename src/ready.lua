@@ -14,8 +14,7 @@ end
 
 modutil.mod.Path.Wrap("FamiliarSetup", function (base, source, args)
     base(source,args)
-    print("removing input block")
-    print(game.MapState.FamiliarUnit)
+    print("removing pet input block")
     game.RemoveInteractBlock(game.MapState.FamiliarUnit,"InRun")
 end)
 

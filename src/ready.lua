@@ -17,7 +17,56 @@ game.FamiliarData.FrogFamiliar.SetupEvents[4].GameStateRequirements[1].IsNone = 
 
 game.FamiliarData.FrogFamiliar.SpecialInteractGameStateRequirements = {}
 
+table.insert(game.FamiliarData.FrogFamiliar.EncounterEndEvents, {
+    FunctionName = _PLUGIN.guid .. "RemovePetInputBlock",
+})
+
 modutil.mod.Path.Wrap("FamiliarSetup", function (base, source, args)
     base(source,args)
-    game.RemoveInteractBlock(game.MapState.Familiar,"InRun")
+    print("removing input block")
+    print(game.MapState.FamiliarUnit)
+    game.RemoveInteractBlock(game.MapState.FamiliarUnit,"InRun")
 end)
+
+modutil.mod.Path.Wrap("CanSpecialInteract", function (base, source)
+    print(mod.dump(source.SpecialInteractFunctionName))
+    print(mod.dump(source.SpecialInteractGameStateRequirements))
+    print(mod.dump(source.SpecialInteractCooldown))
+    print(game.IsComplexHarvestAllowed())
+    print(CurrentHubRoom)
+    local result = base(source)
+    if game.IsComplexHarvestAllowed() and source == game.MapState.FamiliarUnit then
+        return true and base(source)
+    elseif (not game.IsComplexHarvestAllowed()) and source == game.MapState.FamiliarUnit and CurrentHubRoom == nil then
+        return false
+    end
+    return result
+end)
+
+modutil.mod.Path.Wrap("CanReceiveGift", function (base, source)
+    print(mod.dump(source.SpecialInteractFunctionName))
+    print(mod.dump(source.SpecialInteractGameStateRequirements))
+    print(mod.dump(source.SpecialInteractCooldown))
+    print(game.IsComplexHarvestAllowed())
+    print(CurrentHubRoom)
+    local result = base(source)
+    if source == game.MapState.FamiliarUnit and CurrentHubRoom == nil then
+        return false
+    end
+    return result
+end)
+
+
+modutil.mod.Path.Wrap("StartEncounter", function (base, currentRun, currentRoom, encounter)
+    if not encounter.Completed then
+        game.AddInteractBlock(game.MapState.FamiliarUnit,"InRun")
+    end
+    base(currentRun, currentRoom, encounter)
+    if encounter.Completed then
+        game.RemoveInteractBlock(game.MapState.FamiliarUnit,"InRun")
+    end
+end)
+
+function mod.RemovePetInputBlock( familiar )
+    game.RemoveInteractBlock(familiar,"InRun")
+end

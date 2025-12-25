@@ -15,8 +15,10 @@ end
 modutil.mod.Path.Wrap("FamiliarSetup", function (base, source, args)
     base(source,args)
     print("removing familiar input block")
-    game.RemoveInteractBlock(game.MapState.FamiliarUnit,"InRun")
-    game.SetInteractProperty({ DestinationId = game.MapState.FamiliarUnit.ObjectId, Property = "Distance", Value = 50 })
+    if game.MapState.FamiliarUnit ~= nil then
+        game.RemoveInteractBlock(game.MapState.FamiliarUnit, "InRun")
+        game.SetInteractProperty({ DestinationId = game.MapState.FamiliarUnit.ObjectId, Property = "Distance", Value = 50 })
+    end
 end)
 
 modutil.mod.Path.Wrap("CanSpecialInteract", function (base, source)

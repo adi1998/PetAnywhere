@@ -2,7 +2,11 @@
 
 ## [Unreleased]
 
+- Pause timer during petting animation
+
 ## [1.0.2] - 2025-12-25
+
+- Fix crash due to nil reference
 
 ## [1.0.1] - 2025-12-17
 

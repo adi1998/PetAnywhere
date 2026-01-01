@@ -36,3 +36,27 @@ modutil.mod.Path.Wrap("CanReceiveGift", function (base, source)
     end
     return result
 end)
+
+for _, petFunction in ipairs({
+    "FrogFamiliarSpecialInteractUnlockedInHub",
+    "CatFamiliarSpecialInteractUnlockedInHub",
+    "RavenFamiliarSpecialInteractUnlockedInHub",
+    "HoundFamiliarSpecialInteractUnlockedInHub",
+    "PolecatFamiliarSpecialInteractUnlockedInHub"
+}) do
+    modutil.mod.Path.Context.Wrap.Static(petFunction, function (...)
+        modutil.mod.Path.Wrap("AddInputBlock", function (base, args)
+            base(args)
+            if args.Name ~= "MoveHeroToRoomPosition" then
+                game.AddTimerBlock( game.CurrentRun, _PLUGIN.guid .. "FamiliarSpecialInteract" )
+            end
+        end)
+
+        modutil.mod.Path.Wrap("RemoveInputBlock", function (base, args)
+            base(args)
+            if args.Name ~= "MoveHeroToRoomPosition" then
+                game.RemoveTimerBlock( game.CurrentRun, _PLUGIN.guid .. "FamiliarSpecialInteract" )
+            end
+        end)
+    end)
+end

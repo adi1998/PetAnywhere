@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Dev
+- Change Wrap.Static to Env
+- Move some stuff to "late" loader
+
 ## [1.1.0] - 2026-01-03
 
 - Pause timer during petting animation
